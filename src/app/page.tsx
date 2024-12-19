@@ -1,4 +1,5 @@
 "use client";
+import LoginButton from "@/components/auth/loginButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -13,9 +14,11 @@ export default function Home() {
         </h1>
         <p className="text-white text-lg">A simple authentication system</p>
         <div>
-          <Button variant={"secondary"} size={"lg"}>
-            Sign in
-          </Button>
+          <LoginButton>
+            <Button variant={"secondary"} size={"lg"}>
+              Sign in
+            </Button>
+          </LoginButton>
         </div>
       </div>
     </main>

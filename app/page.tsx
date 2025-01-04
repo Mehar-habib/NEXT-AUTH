@@ -24,7 +24,7 @@ export default function Home() {
           A simple authentication service for Next.js
         </p>
       </div>
-      <LoginButton mode="modal">
+      <LoginButton>
         <Button variant={"secondary"} size={"lg"}>
           Sign in
         </Button>

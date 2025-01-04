@@ -1,3 +1,4 @@
+import LoginButton from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
@@ -23,9 +24,11 @@ export default function Home() {
           A simple authentication service for Next.js
         </p>
       </div>
-      <Button variant={"secondary"} size={"lg"}>
-        Sign in
-      </Button>
+      <LoginButton mode="modal">
+        <Button variant={"secondary"} size={"lg"}>
+          Sign in
+        </Button>
+      </LoginButton>
     </main>
   );
 }

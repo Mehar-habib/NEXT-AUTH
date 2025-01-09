@@ -1,5 +1,5 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import CardWrapper from "./card-wrapper";
 import * as z from "zod";
 import { LoginSchema } from "@/schemas";
@@ -20,6 +20,8 @@ import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
 
 export default function LoginForm() {
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -29,8 +31,13 @@ export default function LoginForm() {
     },
   });
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError("");
+    setSuccess("");
     startTransition(() => {
-      login(values);
+      login(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
     });
   };
   return (
@@ -83,8 +90,8 @@ export default function LoginForm() {
             />
           </div>
           {/* message send like error or success */}
-          <FormError message="" />
-          <FormSuccess message="" />
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <Button type="submit" disabled={isPending} className="w-full">
             Login
           </Button>

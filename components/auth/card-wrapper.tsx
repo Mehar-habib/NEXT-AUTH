@@ -12,6 +12,7 @@ interface CardWrapperProps {
   backButtonHref: string;
   showSocial?: boolean;
 }
+
 export default function CardWrapper({
   children,
   headerLabel,
@@ -31,7 +32,8 @@ export default function CardWrapper({
         </CardFooter>
       )}
       <CardFooter>
-        <BackButton href="backButtonHref" label={backButtonLabel} />
+        {/* Use the backButtonHref variable properly */}
+        <BackButton href={backButtonHref} label={backButtonLabel} />
       </CardFooter>
     </Card>
   );

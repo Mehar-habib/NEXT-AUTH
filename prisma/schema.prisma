@@ -13,7 +13,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User model defines the structure of a user in the database.
 model User {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  accounts      Account[] // One-to-many relationship with the Account model.
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId // Foreign key referencing the `id` field in the User model.
+  type              String // Type of account (e.g., OAuth, local).
+  provider          String // The provider of the account (e.g., Google, GitHub).
+  providerAccountId String // Unique ID provided by the account's provider.
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Defines a many-to-one relationship with the User model, using `userId` as the foreign key.
+  // Automatically deletes associated accounts if the related user is deleted (Cascade).
+  // Ensures a unique combination of provider and providerAccountId to avoid duplicates.
+
+  @@unique([provider, providerAccountId])
 }

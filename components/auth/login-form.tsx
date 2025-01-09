@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useTransition } from "react";
 import CardWrapper from "./card-wrapper";
 import * as z from "zod";
 import { LoginSchema } from "@/schemas";
@@ -17,8 +17,10 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { login } from "@/actions/login";
 
 export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -27,7 +29,9 @@ export default function LoginForm() {
     },
   });
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    startTransition(() => {
+      login(values);
+    });
   };
   return (
     <CardWrapper
@@ -49,6 +53,7 @@ export default function LoginForm() {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       placeholder="abc@gmail.com"
                       type="email"
                     />
@@ -65,7 +70,12 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="*********" type="password" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="*********"
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -75,7 +85,7 @@ export default function LoginForm() {
           {/* message send like error or success */}
           <FormError message="" />
           <FormSuccess message="" />
-          <Button type="submit" className="w-full">
+          <Button type="submit" disabled={isPending} className="w-full">
             Login
           </Button>
         </form>

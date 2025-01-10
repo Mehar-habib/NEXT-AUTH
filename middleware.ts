@@ -10,7 +10,7 @@ import {
 const { auth } = NextAuth(authConfig);
 // Destructure the `auth` method from NextAuth using the custom `authConfig`.
 
-const authHandler = auth((req) => {
+export default auth((req) => {
   const { nextUrl } = req; // Extract the `nextUrl` object from the request for route inspection.
   const isLoggedIn = !!req.auth; // Determine if the user is logged in (truthy value for `req.auth`).
 
@@ -42,8 +42,6 @@ const authHandler = auth((req) => {
 
   return; // Allow all other cases (public routes or already handled routes) to proceed.
 });
-
-export default authHandler;
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],

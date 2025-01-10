@@ -1,5 +1,5 @@
 "use server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import { db } from "@/lib/db";

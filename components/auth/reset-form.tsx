@@ -17,7 +17,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { login } from "@/actions/login";
+import { reset } from "@/actions/reset";
 
 export default function ResetForm() {
   const [error, setError] = useState<string | undefined>("");
@@ -33,7 +33,7 @@ export default function ResetForm() {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(values).then((data) => {
+      reset(values).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });

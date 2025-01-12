@@ -33,6 +33,6 @@ export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
     from: "onboarding@resend.dev",
     to: email,
     subject: "2FA Code",
-    html: `<p>Your 2FA code</p>`,
+    html: `<p>Your 2FA code ${token}</p>`,
   });
 };

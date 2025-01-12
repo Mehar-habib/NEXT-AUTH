@@ -2,6 +2,8 @@
 
 // Import necessary modules and functions.
 import { getUserByEmail } from "@/data/user"; // Function to retrieve a user by their email.
+import { sendPasswordResetEmail } from "@/lib/mail";
+import { generatePasswordResetToken } from "@/lib/token";
 import { ResetSchema } from "@/schemas"; // Schema for validating reset request fields.
 import * as z from "zod"; // Zod library for schema validation and type inference.
 
@@ -28,9 +30,12 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
     return { error: "Email not found" };
   }
 
-  // TODO: Generate a reset token and send a password reset email to the user.
-  // This step will involve creating a secure token, storing it, and sending an email with the token.
+  //
+  const passwordResetToken = await generatePasswordResetToken(email);
+  await sendPasswordResetEmail(
+    passwordResetToken.email,
+    passwordResetToken.token
+  );
 
-  // Return a success message indicating the reset email has been sent.
   return { success: "Reset email sent!" };
 };

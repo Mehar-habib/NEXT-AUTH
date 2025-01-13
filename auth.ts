@@ -67,6 +67,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.name = token.email;
+      }
       return session;
     },
     // Callback to handle custom JWT token processing
@@ -79,8 +83,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       // Skip processing if the user does not exist
       if (!existingUser) return token;
-
-      // Add the user's role to the token
+      // when update the name is changed...
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
       return token;

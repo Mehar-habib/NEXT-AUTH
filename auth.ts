@@ -61,6 +61,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.role && session.user) {
         session.user.role = token.role as UserRole;
       }
+      if (token.role && session.user) {
+        session.user.role = token.role as UserRole;
+      }
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+      }
       return session;
     },
     // Callback to handle custom JWT token processing
@@ -76,6 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       // Add the user's role to the token
       token.role = existingUser.role;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
       return token;
     },
   },
